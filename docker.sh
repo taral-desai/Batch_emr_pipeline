@@ -14,4 +14,6 @@ mkdir -p ./dags ./logs ./plugins ./config
 echo -e "AIRFLOW_UID=$(id -u)" > .env
 docker compose up airflow-init
 docker compose up
-
+ssh -o "IdentitiesOnly yes" -i private_key.pem ec2-user@ec2-54-209-106-114.compute-1.amazonaws.com -N -f -L 8080:ec2-user@ec2-54-209-106-114.compute-1.amazonaws.com:8080 && open http://localhost:8080
+terraform -chdir=./terraform_aws output -raw private_key > private_key.pem && chmod 600 private_key.pem &&  && rm 
+ssh -i "airflow_ec2_key20230807014109888200000003.pem" ec2-user@ec2-44-204-56-84.compute-1.amazonaws.comprivate_key.pem
