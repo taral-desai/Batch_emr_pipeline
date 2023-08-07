@@ -11,5 +11,5 @@ output "public_key" {
 
 output "bucket_name" {
   description = "S3 bucket name."
-  value       = aws_s3_bucket.sde-data-lake.id
+  value       = aws_s3_bucket.data-lake.id
 }

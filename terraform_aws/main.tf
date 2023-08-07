@@ -209,7 +209,7 @@ echo 'Clone git repo to EC2'
 git clone https://github.com/taral-desai/Batch_emr_pipeline.git && cd Batch_emr_pipeline
 mkdir -p ./dags ./logs ./plugins ./config
 
-echo -e "AIRFLOW_UID=$(id -u)\nAIRFLOW_CONN_AWS_DEFAULT=aws://?region_name=${var.aws_region}\nAIRFLOW_VAR_EMR_ID=${aws_emr_cluster.sde_emr_cluster.id}\nAIRFLOW_VAR_BUCKET=${aws_s3_bucket.sde-data-lake.id}" >> .env
+echo -e "AIRFLOW_UID=$(id -u)\nAIRFLOW_CONN_AWS_DEFAULT=aws://?region_name=${var.aws_region}\nAIRFLOW_VAR_EMR_ID=${aws_emr_cluster.emr_cluster.id}\nAIRFLOW_VAR_BUCKET=${aws_s3_bucket.data-lake.id}" >> .env
 
 docker compose up airflow-init
 docker compose up
