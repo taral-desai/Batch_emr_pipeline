@@ -81,6 +81,13 @@ resource "aws_security_group" "airflow_ec2_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -206,7 +213,10 @@ sudo chmod 666 /var/run/docker.sock
 
 echo 'Clone git repo to EC2'
 
-git clone https://github.com/taral-desai/Batch_emr_pipeline.git && cd Batch_emr_pipeline
+git clone https://github.com/taral-desai/Batch_emr_pipeline.git
+
+cd Batch_emr_pipeline
+
 mkdir -p ./dags ./logs ./plugins ./config
 
 echo -e "AIRFLOW_UID=$(id -u)\nAIRFLOW_CONN_AWS_DEFAULT=aws://?region_name=${var.aws_region}\nAIRFLOW_VAR_EMR_ID=${aws_emr_cluster.emr_cluster.id}\nAIRFLOW_VAR_BUCKET=${aws_s3_bucket.data-lake.id}" >> .env
@@ -221,6 +231,17 @@ echo "-------------------------END AIRFLOW SETUP---------------------------"
 
 EOF
 
+}
+
+resource "aws_ebs_volume" "myvol" {
+	  availability_zone = aws_instance.airflow_ec2 
+	  size = 20
+}
+
+resource "aws_volume_attachment" "ebs_att" {
+	  device_name = "/dev/xvda"
+	  volume_id = aws_ebs_volume.myvol.id
+	  instance_id = aws_instance.airflow_ec2.id
 }
 
 # Setting as budget monitor, so we don't go over 10 USD per month
