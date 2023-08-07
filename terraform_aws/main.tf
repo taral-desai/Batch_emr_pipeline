@@ -206,7 +206,7 @@ sudo chmod 666 /var/run/docker.sock
 
 echo 'Clone git repo to EC2'
 
-git clone https://github.com/taral-desai/Batch_emr_pipeline.git && cd airflow
+git clone https://github.com/taral-desai/Batch_emr_pipeline.git && cd Batch_emr_pipeline
 mkdir -p ./dags ./logs ./plugins ./config
 
 echo -e "AIRFLOW_UID=$(id -u)\nAIRFLOW_CONN_AWS_DEFAULT=aws://?region_name=${var.aws_region}\nAIRFLOW_VAR_EMR_ID=${aws_emr_cluster.sde_emr_cluster.id}\nAIRFLOW_VAR_BUCKET=${aws_s3_bucket.sde-data-lake.id}" >> .env
